@@ -1,4 +1,5 @@
 ## Banco Simples
+[![Coverage Status](https://coveralls.io/repos/github/almeidaalex/bank/badge.svg?branch=main)](https://coveralls.io/github/almeidaalex/bank?branch=main)
 
 Esse projeto tem como intenção simular algumas operações bancárias, de maneira simplificada com ações como: Depositar, Sacar e Pagar.
 
