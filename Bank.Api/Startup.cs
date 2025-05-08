@@ -1,6 +1,6 @@
-using Bank.Domain;
 using Bank.Domain.Contracts;
-using Bank.Infra;
+using Bank.Domain.Services;
+using Bank.Infra.Contexts;
 
 using MediatR;
 

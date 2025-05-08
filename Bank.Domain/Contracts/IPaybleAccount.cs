@@ -1,4 +1,6 @@
-﻿namespace Bank.Domain.Contracts
+﻿using Bank.Domain.ValueObjects;
+
+namespace Bank.Domain.Contracts
 {
   public interface IPaybleAccount : IAccount
   {

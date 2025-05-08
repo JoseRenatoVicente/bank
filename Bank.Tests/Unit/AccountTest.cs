@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
 
-using Bank.Domain;
+using Bank.Domain.Entities;
 using Bank.Domain.Events;
+using Bank.Domain.ValueObjects;
 
 using FluentAssertions;
 

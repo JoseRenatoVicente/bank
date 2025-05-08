@@ -3,8 +3,8 @@ using System.Data.Common;
 using System.Linq;
 
 using Bank.Api;
-using Bank.Domain;
-using Bank.Infra;
+using Bank.Domain.Entities;
+using Bank.Infra.Contexts;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;

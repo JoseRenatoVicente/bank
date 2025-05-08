@@ -1,4 +1,6 @@
-﻿using Bank.Domain;
+﻿using Bank.Domain.Entities;
+using Bank.Domain.Services;
+using Bank.Domain.ValueObjects;
 
 using FluentAssertions;
 

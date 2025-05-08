@@ -1,0 +1,108 @@
+﻿using System;
+using System.Collections.Generic;
+
+using Bank.Core.Domain.Models;
+using Bank.Domain.Contracts;
+using Bank.Domain.Events;
+using Bank.Core.Domain.SeedWork;
+using Bank.Domain.ValueObjects;
+using Bank.Domain.Fixeds;
+
+namespace Bank.Domain.Entities
+{
+  public sealed class Account : Entity, IAccount, IPaybleAccount, IYieldAccount
+  {
+    private readonly List<AccountOperation> _operations;
+
+    public Account(Owner owner, int accountNo, decimal initialBalance)
+        : this(accountNo)
+    {
+      Balance = initialBalance;
+      Owner = owner;
+      OwnerId = owner.Id;
+    }
+
+    public Account(int accountNo)
+        : this()
+    {
+      No = accountNo;
+    }
+    private Account()
+        : base()
+    {
+      _operations = new List<AccountOperation>();
+    }
+
+    public int OwnerId { get; }
+
+    public Owner Owner { get; private set; }
+
+    public int No { get; }
+
+    public decimal Balance { get; internal set; } = 0;
+
+    public Result IsValidOperation(decimal amount)
+    {
+      return Result.Combine(HasBalance(amount), ValidValue(amount));
+    }
+
+    private Result HasBalance(decimal amount)
+    {
+      return Balance >= amount
+           ? Result.Ok()
+           : Result.Fail("Não há saldo suficiente para saque");
+    }
+
+    private static Result ValidValue(decimal amount)
+    {
+      return amount > 0
+          ? Result.Ok()
+          : Result.Fail("O valor da operação deve ser maior que zero");
+    }
+
+    public Result Deposit(decimal amount)
+    {
+      if (amount <= 0)
+        return Result.Fail($"Não é permitido depósito igual ou menor que zero, valor informado '{amount:n2}'");
+      Balance += amount;
+      AddDomainEvent(new DepositedAmountEvent(amount, this));
+      return Result.Ok();
+    }
+
+    public Result Withdraw(decimal amount)
+    {
+      var result = IsValidOperation(amount);
+      if (result.Success)
+      {
+        Balance -= amount;
+        AddDomainEvent(new WithdrawnAmountEvent(this, amount));
+        return Result.Ok();
+      }
+      return result;
+    }
+
+    public bool CanCharge(Invoice invoice) =>
+        IsValidOperation(invoice.Amount).Success;
+
+    public void ChargePayment(Invoice invoice)
+    {
+      Balance -= invoice.Amount;
+      AddDomainEvent(new ChargedPaymentEvent(this, invoice));
+    }
+
+    public void AddOperation(AccountOperation accountOperation) =>
+        _operations.Add(accountOperation);
+
+    public IReadOnlyCollection<AccountOperation> Operations => _operations.AsReadOnly();
+
+    public DateTime? LastYieldedDate { get; private set; }
+
+    public void SetYield(decimal yield, DateTime currentDate)
+    {
+      AddOperation(new AccountOperation(currentDate, $"Rendimento em {currentDate}", yield, EventType.Income));
+      Balance += yield;
+      LastYieldedDate = currentDate;
+      AddDomainEvent(new CalculatedIncomeEvent(this, yield));
+    }
+  }
+}

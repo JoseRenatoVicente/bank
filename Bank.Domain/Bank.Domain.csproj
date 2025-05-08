@@ -3,7 +3,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <RuntimeIdentifiers>win-x64;osx-x64;linux-x64</RuntimeIdentifiers>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="10.0.1" />
+    <ProjectReference Include="..\Bank.Core.Domain\Bank.Core.Domain.csproj" />
   </ItemGroup>
 </Project>

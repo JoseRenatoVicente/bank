@@ -1,7 +1,8 @@
 ﻿using System;
 
 using Bank.Domain.Contracts;
-using Bank.Domain.SeedWork;
+using Bank.Core.Domain.SeedWork;
+using Bank.Domain.Fixeds;
 
 namespace Bank.Domain.Events
 {

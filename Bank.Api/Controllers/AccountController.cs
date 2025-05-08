@@ -1,9 +1,12 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 
-using Bank.Api.Commands;
-using Bank.Api.DTOs;
-using Bank.Infra;
+using Bank.Domain.Accounts.CalculateIncome;
+using Bank.Domain.Accounts.Deposit;
+using Bank.Domain.Accounts.Payment;
+using Bank.Domain.Accounts.Withdraw;
+using Bank.Domain.DTOs;
+using Bank.Infra.Contexts;
 
 using MediatR;
 

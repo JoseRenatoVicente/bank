@@ -6,8 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Bank.Api;
-using Bank.Api.Commands;
-using Bank.Api.DTOs;
+using Bank.Domain.Accounts.CalculateIncome;
+using Bank.Domain.DTOs;
 using Bank.Tests.Integration.Fixtures;
 using Bank.Tests.Integration.Helpers;
 
